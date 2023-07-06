@@ -10,7 +10,7 @@ Instrucciones generales de cómo correr el proyecto de forma local
 
 Para poder ejecutar el proyecto de forma local se deben tener instalados los siguientes programas:
 
-1. Tener instalado Git para poder clonar le repositorio
+1. Tener instalado Git para poder clonar el repositorio
 2. Visual Studio Code (O cualquier otro editor de tecto de preferencia)
 3. Tener instalado Mysql motor de base de datos
 4. Node JS lenguaje de programación necesario para correr el aplicativo
