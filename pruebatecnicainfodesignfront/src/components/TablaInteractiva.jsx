@@ -84,14 +84,12 @@ const TablaInteractiva = () => {
                   Linea
                 </TableSortLabel>
               </TableCell>
-              {/* Aquí puedes agregar más encabezados para otros campos si es necesario */}
             </TableRow>
           </TableHead>
           <TableBody>
             {filteredAndSortedData.map((item) => (
               <TableRow key={item.id}>
                 <TableCell>{item.Linea}</TableCell>
-                {/* Aquí puedes agregar más celdas para otros campos si es necesario */}
               </TableRow>
             ))}
           </TableBody>
