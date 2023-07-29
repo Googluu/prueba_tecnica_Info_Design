@@ -61,7 +61,6 @@ const TablaInteractiva = () => {
           (order === "asc" ? 1 : -1)
         );
       }
-      // Aquí puedes agregar más lógica para ordenar por otros campos si es necesario
       return 0;
     });
 
