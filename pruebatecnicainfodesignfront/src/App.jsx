@@ -1,11 +1,5 @@
-import TablaInteractiva from "./components/TablaInteractiva.jsx";
-
 function App() {
-  return (
-    <>
-      <TablaInteractiva />
-    </>
-  );
+  return <div>App</div>;
 }
 
 export default App;
