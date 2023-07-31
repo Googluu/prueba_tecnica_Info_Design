@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Bar } from "react-chartjs-2";
 
-const GraficaTramos = () => {
+const GraficaTramosCliente = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const chartId = "grafica-tramos-chart";
@@ -14,7 +14,7 @@ const GraficaTramos = () => {
   const fetchData = () => {
     axios
       .get(
-        "http://localhost:4000/tramos?fechainicial=2010-02-01&fechafinal=2010-02-30"
+        "http://localhost:4000/tramos-cliente?fechainicial=2010-02-01&fechafinal=2010-02-30"
       )
       .then((response) => {
         setData(response.data);
@@ -27,28 +27,21 @@ const GraficaTramos = () => {
   };
 
   const chartData = {
-    labels: data.map((item) => item.Linea),
+    labels: data.map((item) => `${item.Linea} - ${item.TipoConsumo}`),
     datasets: [
       // ... Configuración de los datasets ...
-      {
-        label: "Consumo",
-        data: data.map((item) => item.consumo),
-        backgroundColor: "rgba(75, 192, 192, 0.2)",
-        borderColor: "rgba(75, 192, 192, 1)",
-        borderWidth: 1,
-      },
+      // {
+      //   label: "Tipo de Consumo",
+      //   data: data.map((item) => item.TipoConsumo),
+      //   backgroundColor: "rgba(75, 192, 192, 0.2)",
+      //   borderColor: "rgba(75, 192, 192, 1)",
+      //   borderWidth: 1,
+      // },
       {
         label: "Perdidas",
-        data: data.map((item) => item.perdidas),
+        data: data.map((item) => item.Perdidas),
         backgroundColor: "rgba(255, 99, 132, 0.2)",
         borderColor: "rgba(255, 99, 132, 1)",
-        borderWidth: 1,
-      },
-      {
-        label: "Costo",
-        data: data.map((item) => item.costo),
-        backgroundColor: "rgba(54, 162, 235, 0.2)",
-        borderColor: "rgba(54, 162, 235, 1)",
         borderWidth: 1,
       },
     ],
@@ -68,7 +61,7 @@ const GraficaTramos = () => {
 
   return (
     <div>
-      <h2 className="text-center mb-4">Grafica Tramos</h2>
+      <h2 className="text-center mb-4">Grafica Tramos Cliente</h2>
       {loading ? (
         <div>Cargando datos...</div>
       ) : (
@@ -78,4 +71,4 @@ const GraficaTramos = () => {
   );
 };
 
-export default GraficaTramos;
+export default GraficaTramosCliente;
