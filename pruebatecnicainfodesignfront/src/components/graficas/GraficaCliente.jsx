@@ -1,15 +1,33 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Bar } from "react-chartjs-2";
+import Chart from "chart.js/auto";
+import { v4 as uuidv4 } from "uuid";
 
 const GraficaCliente = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const chartId = "grafica-tramos-chart";
+  const chartId = uuidv4;
 
   useEffect(() => {
     fetchData();
+
+    // Función de limpieza para destruir la gráfica anterior antes de desmontar el componente
+    return () => {
+      const canvas = document.getElementById(chartId);
+      const existingChart = Chart.getChart(canvas);
+      if (existingChart) {
+        existingChart.destroy();
+      }
+    };
   }, []);
+
+  useEffect(() => {
+    if (!loading && data.length > 0) {
+      // Si ya se obtuvieron los datos y no hay carga, renderizar la gráfica
+      renderChart();
+    }
+  }, [loading, data]);
 
   const fetchData = () => {
     axios
@@ -108,11 +126,26 @@ const GraficaCliente = () => {
     },
   };
 
+  const renderChart = () => {
+    const canvas = document.getElementById(chartId);
+    const existingChart = Chart.getChart(canvas);
+    if (existingChart) {
+      existingChart.destroy();
+    }
+
+    // Crear una nueva instancia de la gráfica
+    new Chart(canvas, {
+      type: "bar",
+      data: chartData,
+      options: chartOptions,
+    });
+  };
+
   return (
     <div>
       <h2 className="text-center mb-4">Grafica Cliente</h2>
       {loading ? (
-        <div>Cargando datos...</div>
+        <div className="text-center mb-4">Cargando datos...</div>
       ) : (
         <Bar data={chartData} options={chartOptions} id={chartId} />
       )}
