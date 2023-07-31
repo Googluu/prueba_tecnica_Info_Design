@@ -22,32 +22,47 @@ const TablaInteractivaTramosCliente = () => {
   const [orderBy, setOrderBy] = useState(""); // Estado para el campo de ordenamiento
   const [order, setOrder] = useState("asc"); // Estado para el tipo de ordenamiento (ascendente o descendente)
   const [loading, setLoading] = useState(true); // Estado para indicar si la tabla está cargando los datos
+  const [fechaInicial, setFechaInicial] = useState("");
+  const [fechaFinal, setFechaFinal] = useState("");
 
   // let fechainicial;
   // let fechafinal;
 
   useEffect(() => {
     // llamada a la API para obtener los datos
-    const fetchData = () => {
-      setLoading(true);
-      axios
-        .get(
-          // `http://localhost:4000/tramos?fechainicial=${fechaInicial}&fechafinal=${fechaFinal}`
-          "http://localhost:4000/tramos-cliente?fechainicial=2010-02-01&fechafinal=2010-02-30"
-        )
-        .then((response) => {
-          setData(response.data); // Almacena los datos en el estado del componente
-        })
-        .catch((error) => {
-          console.error("Error al obtener los datos:", error);
-        })
-        .finally(() => {
-          setLoading(false);
-        });
-    };
 
     fetchData();
   }, []);
+
+  const fetchData = () => {
+    const uri = `http://localhost:4000/tramos-cliente${
+      fechaInicial && fechaFinal
+        ? `?fechainicial=${formatDate(fechaInicial)}&fechafinal=${formatDate(
+            fechaFinal
+          )}`
+        : ""
+    }`;
+    setLoading(true);
+    axios
+      .get(uri)
+      .then((response) => {
+        setData(response.data); // Almacena los datos en el estado del componente
+      })
+      .catch((error) => {
+        console.error("Error al obtener los datos:", error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  };
 
   if (loading) {
     return <div className="text-center mb-4">Cargando datos...</div>;
@@ -101,11 +116,52 @@ const TablaInteractivaTramosCliente = () => {
       return 0;
     });
 
+  const handleFiltrarClick = () => {
+    // Realizar la solicitud de los datos filtrados cuando el usuario hace clic en el botón "Filtrar"
+    setLoading(true);
+    fetchData();
+  };
+
   return (
     <div className="container">
       <h2 className="text-center mb-4">Tabla Tramos-Cliente</h2>
       <Grid container spacing={2}>
         <Grid item xs={12} md={4}>
+          <div className="column align-items-end">
+            <div className="col-md-14">
+              <label htmlFor="fechaInicial" className="form-label">
+                Fecha Inicial:
+              </label>
+              <input
+                // type="date"
+                id="fechaInicial"
+                className="form-control"
+                placeholder="2010-02-01"
+                value={fechaInicial}
+                onChange={(e) => setFechaInicial(e.target.value)}
+              />
+            </div>
+            <div className="col-md-14">
+              <label htmlFor="fechaFinal" className="form-label">
+                Fecha Final:
+              </label>
+              <input
+                // type="date"
+                id="fechaFinal"
+                className="form-control"
+                placeholder="2010-02-30"
+                value={fechaFinal}
+                onChange={(e) => setFechaFinal(e.target.value)}
+              />
+            </div>
+            <br />
+            <div className="col-md-2">
+              <button className="btn btn-primary" onClick={handleFiltrarClick}>
+                Filtrar
+              </button>
+            </div>
+          </div>
+          <br />
           <TextField
             label="Filtrar por Linea"
             value={filterLinea}

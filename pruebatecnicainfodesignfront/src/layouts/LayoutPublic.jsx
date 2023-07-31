@@ -13,7 +13,9 @@ export const LayoutPublic = () => {
         )}
         <Outlet />
       </main>
-      <footer className="text-center">Footer</footer>
+      <footer className="text-center">
+        <br />
+      </footer>
     </div>
   );
 };
