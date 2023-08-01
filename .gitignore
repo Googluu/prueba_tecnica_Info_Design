@@ -93,6 +93,9 @@ dist
 # vuepress build output
 .vuepress/dist
 
+# env
+.env
+
 # vuepress v2.x temp and cache directory
 .temp
 .cache
@@ -121,3 +124,6 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# volumen data
+mysql-data

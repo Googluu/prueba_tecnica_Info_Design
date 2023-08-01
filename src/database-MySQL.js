@@ -1,10 +1,13 @@
 const mysql = require("mysql2");
 
+const { config } = require("./config");
+
 //Configuración
 var mysqlConn = mysql.createConnection({
-  host: "localhost",
-  database: "pruebainfodesign",
-  user: "root",
+  host: config.dbHost,
+  database: config.dbName,
+  user: config.dbUser,
+  port: config.dbPort,
 });
 
 //Conexión
